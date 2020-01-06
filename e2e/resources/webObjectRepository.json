@@ -1,0 +1,18 @@
+{
+    "loginPage":
+    {
+     "perxLogo" : ["css","div.sc-LzLqE.jkOlPS > img"],
+     "username" : ["name","email"],
+     "password" : ["name","password"],
+     "loginBtn" : ["css","button.ant-btn.bdYfNv.ant-btn-primary"],
+     "rewardsLink" : ["linkText", "/dashboard/p/rewards"],
+     "loggedInUserLogo" : ["css", "div.sc-fzXfQV.bAzGKD"],
+     "createRewardBtn" : ["css","button.ant-btn.bdYfNv.ant-btn-primary"]
+    },
+    "homePage":
+    {
+      "rewardsLink" : ["linkText", "/dashboard/p/rewards"],
+      "loggedInUserLogo" : ["css", "div.sc-fzXfQV.bAzGKD"],
+      "createRewardBtn" : ["css","button.ant-btn.bdYfNv.ant-btn-primary"]
+    }
+  }

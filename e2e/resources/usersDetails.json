@@ -1,0 +1,13 @@
+{
+    "perx": {
+      "baseUrl": "https://www.perxtech.io/dashboard/signin"
+    },
+    "admin": {
+      "user": "admin@dashboard.com",
+      "password": "admin1234"
+    },
+    "nonAdmin": {
+      "user": "reward_admin@dashboard.com",
+      "password": "reward_admin"
+    }
+}
