@@ -11,8 +11,17 @@
     },
     "homePage":
     {
-      "rewardsLink" : ["linkText", "/dashboard/p/rewards"],
+      "rewardsLink" : ["css", "a[href*=\"/dashboard/p/rewards\"]"],
       "loggedInUserLogo" : ["css", "div.sc-fzXfQV.bAzGKD"],
-      "createRewardBtn" : ["css","button.ant-btn.bdYfNv.ant-btn-primary"]
+      "createNewRewardBtn" : ["css","button.ant-btn.bdYfNv.ant-btn-primary"]
+    },
+    "createInfoPage":
+    {
+      "infoPage" : ["css", "strong.sc-fzXfNf.fRnqps]"],
+      "rewardNameInput" : ["css", "[name=\"name_en\"]"]
+    },
+    "mechanicsPage":
+    {
+      "page" : ["css", "[name=\"name_en\"]"]
     }
   }
