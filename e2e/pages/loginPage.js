@@ -1,4 +1,4 @@
-module.exports = function () {
+var LoginPage = function () {
     'use strict';
     // Login page
     var objRepo = require('../resources/webObjectRepository.json');
@@ -40,3 +40,4 @@ module.exports = function () {
         return this;
     };
 };
+module.exports = new LoginPage();

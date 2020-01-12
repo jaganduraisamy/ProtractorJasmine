@@ -28,6 +28,9 @@
     global.pages = {};
     global.pages.loginPage = require('./pages/loginPage.js');
     global.pages.homePage = require('./pages/homePage.js');
+    global.pages.createInfoPage = require('./pages/createInfoPage.js');
+    global.pages.createInfoPage = require('./pages/createMechanicsPage.js');
+    
     
 
 }());

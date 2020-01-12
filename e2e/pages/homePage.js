@@ -1,4 +1,4 @@
-module.exports = function () {
+var HomePage = function () {
     'use strict';
     // Home page
     var objRepo = require('../resources/webObjectRepository.json');
@@ -7,9 +7,27 @@ module.exports = function () {
     var waitActions = new commons.waitActions();
     var buttonActions = new commons.buttonActions();
 
-    var rewardsLink = element(by.css('a[href*="/dashboard/p/rewards"]'));
-    var loggedInUserLogo = element(by.css('div.sc-fzXfQV.bAzGKD'));
-    var createNewRewardBtn = objLocator.findLocator(objRepo.loginPage.createRewardBtn);
+    this.rewardsLink = objLocator.findLocator(objRepo.homePage.rewardsLink);
+    this.loggedInUserLogo = objLocator.findLocator(objRepo.homePage.loggedInUserLogo);
+    this.createNewRewardBtn = objLocator.findLocator(objRepo.homePage.createNewRewardBtn);
+  
+    this.rewardSearchInput  = element(by.css('input.ant-input.ant-input-lg'));
+    this.rewardResultRecordEle = element(by.css('tbody.ant-table-tbody > tr:first-child > td:first-child > a > div.iHJFYX'));
+   
+    // navigation pane links
+   // var rewardsLink = element(by.css('a[href*="/dashboard/p/rewards"]'));
+   // var loggedInUserLogo = element(by.css('div.sc-fzXfQV.bAzGKD'));
+    this.cataloguesLink = element(by.css('a[href*="/dashboard/p/catalogues"]'));
+    this.reportsLink = element(by.css('a[href*="/dashboard/p/reports"]'));
+    this.campaignsLink = element(by.css('a[href*="/dashboard/p/campaigns"]'));
+   
+    this.loyaltiesLink = element(by.css('a[href*="/dashboard/p/loyalties"]'));
+    this.rulesLink = element(by.css('a[href*="/dashboard/p/rules"]'));
+    this.merchantsLink = element(by.css('a[href*="/dashboard/p/merchants"]'));
+
+    this.customersLink = element(by.css('a[href*="/dashboard/p/customers"]'));
+    this.bulkactionLink = element(by.css('a[href*="/dashboard/p/bulkaction"]'));
+    this.settingsLink = element(by.css('a[href*="/dashboard/p/settings"]'));
 
     this.isPageLoaded = function () {
         waitActions.waitForElementIsDisplayed(rewardsLink);
@@ -30,30 +48,5 @@ module.exports = function () {
         waitActions.setScrollPage(element);
         return this;
     };
-
-    this.pickTomorrowDate = function (element){
-    
-        const EC = protractor.ExpectedConditions;
-        browser.wait(EC.presenceOf(element), 5000).then(() => {
-
-            element.click();
-            var dateInpputEle = browser.findElement(by.css('input.ant-calendar-input'));
-            dateInpputEle.sendKeys(getCurrentDate());
-            dateInpputEle.sendKeys(protractor.Key.ENTER);
-       });
-    };
-
-    function getCurrentDate() {
-        var d = new Date();
-        var month = '' + (d.getMonth() + 1);
-        var day = '' + (d.getDate() + 1);
-        var year = d.getFullYear();
-    
-        if (month.length < 2) 
-            month = '0' + month;
-        if (day.length < 2) 
-            day = '0' + day;
-    
-        return [year, month, day].join('-');
-    }
 };
+module.exports = new HomePage();

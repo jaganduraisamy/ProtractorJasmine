@@ -1,196 +1,173 @@
-describe('Creating new reward - tests', function () {
+var homePage = require('../pages/HomePage');
+var loginPage = require('../pages/LoginPage');
+var createInfoPage = require('../pages/CreateInfoPage');
+var createMechanicsPage = require('../pages/CreateMechanicsPage');
+var rewardInfoPage = require('../pages/RewardInfoPage');
+describe('Creating new reward - tests', function() {
 
     'use strict';
-   
+
     var testData = require('../resources/usersDetails.json');
-   
-    var loginPage = new pages.loginPage();
-    var homePage = new pages.homePage();
     var waitActions = new commons.waitActions();
 
-    // dash board links for features
-    var rewardsLink = element(by.css('a[href*="/dashboard/p/rewards"]'));
-    var loggedInUserLogo = element(by.css('div.sc-fzXfQV.bAzGKD'));
-    var createNewRewardBtn = element(by.css('button.ant-btn.bdYfNv.ant-btn-primary'));
-    var infoPage = element(by.css('strong.sc-fzXfNf.fRnqps'));
-    var nextBtn = element(by.css('button.ant-btn.bdYfNv.ant-btn-primary'));
-    var nameMandatoryErrorEle = element(by.css('span.ant-form-item-children > div:nth-of-type(2)'));
-    var rewardNameInput = element(by.css('[name="name_en"]'));
-    var dateMandatoryErrorEle = element(by.css('label.eqwEup'));
-    var endDateEle = element(by.css('div.ant-collapse-content-box > div:nth-of-type(2) > div:nth-of-type(2) > div.ant-col.ant-form-item-control-wrapper > div.ant-form-item-control > span.ant-form-item-children > section.sc-fzXfOy.dYspSv > section.sc-fzXfPa.cxtbYi > div > span.sc-fzXfPc.bAzGKj.datePicker.ant-calendar-picker > div > input.ant-calendar-picker-input.ant-input'));
+    beforeEach(function() {
+        loginPage.openDashBoard(testData.perx.baseUrl);
+        loginPage.isPageLoaded;
 
-    var launchBtn  = element(by.css('div.bdiHVz > div:nth-of-type(2) > button:nth-of-type(2)'));
-    var rewardInfoPage  = element(by.css('div.sc-fzXfNP.cjVnST > h3.sc-fzXfNR.bAzGIE'));
-    var rewardListPageLink  = element(by.css('ul.ant-menu.mainMenu.ant-menu-white.ant-menu-inline-collapsed.ant-menu-root.ant-menu-vertical > li:first-child'));
-    
-    var rewardSearchInput  = element(by.css('input.ant-input.ant-input-lg'));
-    var rewardResultRecordEle = element(by.css('tbody.ant-table-tbody > tr:first-child > td:first-child > a > div.iHJFYX'));
-    
-    var privateRadioBtn = element(by.css('div > div:first-child > div.ant-collapse-item.ant-collapse-no-arrow.hozGFb > div.ant-collapse-content > div.ant-collapse-content-box > div:first-child > div.ant-col.ant-form-item-control-wrapper > div.ant-form-item-control > span.ant-form-item-children > div.ant-radio-group.ant-radio-group-outline > label:nth-of-type(2) > span:nth-of-type(2)'));
-    var systemRadioBtn = element(by.css('div.ant-radio-group.ant-radio-group-outline > label:nth-of-type(3)'));
-    
-    var rewardRecommendationToggleBtn = element(by.css('div > div:nth-of-type(3) > div.ant-collapse-item.ant-collapse-no-arrow.hozGFb > div.ant-collapse-header > div > button.cbfKhz.ant-switch.ant-switch-checked'));
-    var rewardRecommendationInput = element(by.css('div > div:nth-of-type(3) > div.ant-collapse-item.ant-collapse-no-arrow.hozGFb > div.ant-collapse-content > div.ant-collapse-content-box > div.ant-row.ant-form-item.sc-fzXfPH.ctqxEg > div.ant-col.ant-form-item-control-wrapper > div.ant-form-item-control > span.ant-form-item-children > div.sc-fzXfPg.bAzGKn > div > div > ul > li > div > input'));
+        // login as reward admin
+        loginPage.enterUserName(testData.nonAdmin.user);
+        loginPage.enterPassword(testData.nonAdmin.password);
+        loginPage.clickLoginBtn();
+        expect(homePage.loggedInUserLogo.isDisplayed()).toBeTruthy();
 
-   
-     beforeEach(function () {
-      loginPage.openDashBoard(testData.perx.baseUrl);
-      loginPage.isPageLoaded;
-      
-       // login as reward admin
-       loginPage.enterUserName(testData.nonAdmin.user);
-       loginPage.enterPassword(testData.nonAdmin.password);
-       loginPage.clickLoginBtn();
-
-       // Click new reward btn
-       expect(loggedInUserLogo.isDisplayed()).toBeTruthy();
-       rewardsLink.click();
-       createNewRewardBtn.click();
-       expect(infoPage.isDisplayed()).toBeTruthy();
+        // Click new reward btn
+        homePage.rewardsLink.click();
+        homePage.createNewRewardBtn.click();
+        // expect(createInfoPage.infoPage.isDisplayed()).toBe(true);
     });
 
-    it('name is mandatory field while creating new reward', function () {
-        
-        nextBtn.click();
-        expect(nameMandatoryErrorEle.isDisplayed()).toBeTruthy();
-        expect(nameMandatoryErrorEle.getText()).toContain("Rewards must have a name.");    
-     });
 
-     it('end date is mandatory field while creating new reward', function () {
-       
+    it('name is mandatory field while creating new reward', function() {
+
+        createInfoPage.nextBtn.click();
+        expect(createInfoPage.nameMandatoryErrorEle.isDisplayed()).toBeTruthy();
+        expect(createInfoPage.nameMandatoryErrorEle.getText()).toContain("Rewards must have a name.");
+    });
+
+    it('end date is mandatory field while creating new reward', function() {
+
         var newRewardName = "JD-TestReward";
-      
-        rewardNameInput.sendKeys(newRewardName);
-        nextBtn.click();
-        nextBtn.click();
-        
-        homePage.scrollToView(dateMandatoryErrorEle);
-        expect(dateMandatoryErrorEle.isDisplayed()).toBeTruthy();
-        expect(dateMandatoryErrorEle.getText()).toContain("Start date & end date required");   
- 
-     });
 
+        createInfoPage.rewardNameInput.sendKeys(newRewardName);
+        createInfoPage.nextBtn.click();
+        createMechanicsPage.nextBtn.click();
 
-      it('successfully created public-reward should be available in rewards list', function () {
-         var date = new Date();
-         var timestamp = date.getTime();
-         var newRewardName = "JD-TestReward"+timestamp;
-         rewardNameInput.sendKeys(newRewardName);
-         nextBtn.click();
-  
-         // pick date form end date 
-         homePage.scrollToView(endDateEle);   
-         homePage.pickTomorrowDate(endDateEle);
-         nextBtn.click();
-  
-         launchBtn.click();
-         browser.sleep(2000);
-         waitActions.waitForElementIsDisplayed(rewardInfoPage);
-         expect(rewardInfoPage.isDisplayed()).toBeTruthy();
-         
-         waitActions.waitForElementIsDisplayed(rewardListPageLink);
-         rewardListPageLink.click();
-         browser.sleep(1000);
-        // search by reward name
-  
-        rewardSearchInput.sendKeys(newRewardName);
-        rewardSearchInput.sendKeys(protractor.Key.ENTER);
-  
+        createMechanicsPage.scrollToView(createMechanicsPage.dateMandatoryErrorEle);
+        expect(createMechanicsPage.dateMandatoryErrorEle.isDisplayed()).toBeTruthy();
+        expect(createMechanicsPage.dateMandatoryErrorEle.getText()).toContain("Start date & end date required");
+
+    });
+
+    it('successfully created public-reward should be available in rewards list', function() {
+        var date = new Date();
+        var timestamp = date.getTime();
+        var newRewardName = "JD-TestReward" + timestamp;
+        createInfoPage.rewardNameInput.sendKeys(newRewardName);
+        createInfoPage.nextBtn.click();
+
+        // pick date form end date 
+        createMechanicsPage.scrollToView(createMechanicsPage.endDateEle);
+        createMechanicsPage.pickTomorrowDate(createMechanicsPage.endDateEle);
+        createMechanicsPage.nextBtn.click();
+
+        createMechanicsPage.launchBtn.click();
+        browser.sleep(2000);
+        waitActions.waitForElementIsDisplayed(rewardInfoPage.Page);
+        expect(rewardInfoPage.Page.isDisplayed()).toBeTruthy();
+
+        waitActions.waitForElementIsDisplayed(rewardInfoPage.rewardListPageLink);
+        rewardInfoPage.rewardListPageLink.click();
         browser.sleep(1000);
-  
-        waitActions.waitForElementIsDisplayed(rewardResultRecordEle);
-        expect(rewardResultRecordEle.isDisplayed()).toBeTruthy();
-        expect(rewardResultRecordEle.getText()).toEqual(newRewardName);
-       });
-  
-     
-      it('disabled keywords section should get disappear in payload', function () {
-          var date = new Date();
-          var timestamp = date.getTime();
-          var newRewardName = "JD-SystemReward"+timestamp;
-   
-          rewardNameInput.sendKeys(newRewardName);
-          homePage.scrollToView(rewardRecommendationInput); 
-          rewardRecommendationInput.sendKeys("Test reward recommendation");
-          rewardRecommendationToggleBtn.click();
-          browser.sleep(500);
-         // uploadFileToggleBtn.click();
-          nextBtn.click();
-          browser.sleep(500);
-          // pick date form end date 
-          homePage.scrollToView(endDateEle);   
-          homePage.pickTomorrowDate(endDateEle);
-          nextBtn.click();
-   
-         expect(element(by.cssContainingText("label",newRewardName)).isPresent()).toBe(false);
-        });
+
+        // search by reward name
+        homePage.rewardSearchInput.sendKeys(newRewardName);
+        homePage.rewardSearchInput.sendKeys(protractor.Key.ENTER);
+        browser.sleep(1000);
+        waitActions.waitForElementIsDisplayed(homePage.rewardResultRecordEle);
+        expect(homePage.rewardResultRecordEle.isDisplayed()).toBeTruthy();
+        expect(homePage.rewardResultRecordEle.getText()).toEqual(newRewardName);
+    });
 
 
- it('successfully created system-reward should be available in rewards list', function () {
-   var date = new Date();
-   var timestamp = date.getTime();
-   var newRewardName = "JD-SystemReward"+timestamp;
+    it('disabled keywords section should get disappear in payload', function() {
+        var date = new Date();
+        var timestamp = date.getTime();
+        var newRewardName = "JD-SystemReward" + timestamp;
 
-   systemRadioBtn.click();
-   rewardNameInput.sendKeys(newRewardName);
-   nextBtn.click();
+        createInfoPage.rewardNameInput.sendKeys(newRewardName);
+        createInfoPage.scrollToView(createInfoPage.rewardRecommendationInput);
+        createInfoPage.rewardRecommendationInput.sendKeys("Test reward recommendation");
+        createInfoPage.rewardRecommendationToggleBtn.click();
+        browser.sleep(500);
+        // uploadFileToggleBtn.click();
+        createInfoPage.nextBtn.click();
+        browser.sleep(500);
+        // pick date form end date 
+        createMechanicsPage.scrollToView(createMechanicsPage.endDateEle);
+        createMechanicsPage.pickTomorrowDate(createMechanicsPage.endDateEle);
+        createMechanicsPage.nextBtn.click();
 
-   // pick date form end date 
-   homePage.scrollToView(endDateEle);   
-   homePage.pickTomorrowDate(endDateEle);
-   nextBtn.click();
+        expect(element(by.cssContainingText("label", newRewardName)).isPresent()).toBe(false);
+    });
 
-   launchBtn.click();
-   browser.sleep(2000);
-   waitActions.waitForElementIsDisplayed(rewardInfoPage);
-   expect(rewardInfoPage.isDisplayed()).toBeTruthy();
-   
-   waitActions.waitForElementIsDisplayed(rewardListPageLink);
-   rewardListPageLink.click();
-   browser.sleep(1000);
-  // search by reward name
+    it('successfully created system-reward should be available in rewards list', function() {
+        var date = new Date();
+        var timestamp = date.getTime();
+        var newRewardName = "JD-SystemReward" + timestamp;
 
-  rewardSearchInput.sendKeys(newRewardName);
-  rewardSearchInput.sendKeys(protractor.Key.ENTER);
+        createInfoPage.systemRadioBtn.click();
+        createInfoPage.rewardNameInput.sendKeys(newRewardName);
+        createInfoPage.nextBtn.click();
 
-  browser.sleep(1000);
+        // pick date form end date 
+        createMechanicsPage.scrollToView(createMechanicsPage.endDateEle);
+        createMechanicsPage.pickTomorrowDate(createMechanicsPage.endDateEle);
+        createMechanicsPage.nextBtn.click();
 
-  waitActions.waitForElementIsDisplayed(rewardResultRecordEle);
-  expect(rewardResultRecordEle.isDisplayed()).toBeTruthy();
-  expect(rewardResultRecordEle.getText()).toEqual(newRewardName);
- });
+        createMechanicsPage.launchBtn.click();
+        browser.sleep(2000);
+        waitActions.waitForElementIsDisplayed(rewardInfoPage.Page);
+        expect(rewardInfoPage.Page.isDisplayed()).toBeTruthy();
 
- it('successfully created private-reward should be available in rewards list', function () {
-   var date = new Date();
-   var timestamp = date.getTime();
-   var newRewardName = "JD-PrivateReward"+timestamp;
+        waitActions.waitForElementIsDisplayed(rewardInfoPage.rewardListPageLink);
+        rewardInfoPage.rewardListPageLink.click();
+        browser.sleep(1000);
+        // search by reward name
 
-   privateRadioBtn.click();
-   rewardNameInput.sendKeys(newRewardName);
-   nextBtn.click();
+        homePage.rewardSearchInput.sendKeys(newRewardName);
+        homePage.rewardSearchInput.sendKeys(protractor.Key.ENTER);
 
-   // pick date form end date 
-   homePage.scrollToView(endDateEle);   
-   homePage.pickTomorrowDate(endDateEle);
-   nextBtn.click();
+        browser.sleep(1000);
 
-   launchBtn.click();
-   browser.sleep(2000);
-   waitActions.waitForElementIsDisplayed(rewardInfoPage);
-   expect(rewardInfoPage.isDisplayed()).toBeTruthy();
-   
-   waitActions.waitForElementIsDisplayed(rewardListPageLink);
-   rewardListPageLink.click();
-   browser.sleep(1000);
-  // search by reward name
+        waitActions.waitForElementIsDisplayed(homePage.rewardResultRecordEle);
+        expect(homePage.rewardResultRecordEle.isDisplayed()).toBeTruthy();
+        expect(homePage.rewardResultRecordEle.getText()).toEqual(newRewardName);
+    });
 
-  rewardSearchInput.sendKeys(newRewardName);
-  rewardSearchInput.sendKeys(protractor.Key.ENTER);
 
-  browser.sleep(1000);
 
-  waitActions.waitForElementIsDisplayed(rewardResultRecordEle);
-  expect(rewardResultRecordEle.isDisplayed()).toBeTruthy();
-  expect(rewardResultRecordEle.getText()).toEqual(newRewardName);
- });
+    it('successfully created private-reward should be available in rewards list', function() {
+        var date = new Date();
+        var timestamp = date.getTime();
+        var newRewardName = "JD-PrivateReward" + timestamp;
+
+        createInfoPage.privateRadioBtn.click();
+        createInfoPage.rewardNameInput.sendKeys(newRewardName);
+        createInfoPage.nextBtn.click();
+
+        // pick date form end date 
+        createMechanicsPage.scrollToView(createMechanicsPage.endDateEle);
+        createMechanicsPage.pickTomorrowDate(createMechanicsPage.endDateEle);
+        createMechanicsPage.nextBtn.click();
+
+        createMechanicsPage.launchBtn.click();
+        browser.sleep(2000);
+        waitActions.waitForElementIsDisplayed(rewardInfoPage.Page);
+        expect(rewardInfoPage.Page.isDisplayed()).toBeTruthy();
+
+        waitActions.waitForElementIsDisplayed(rewardInfoPage.rewardListPageLink);
+        rewardInfoPage.rewardListPageLink.click();
+        browser.sleep(1000);
+        // search by reward name
+
+        homePage.rewardSearchInput.sendKeys(newRewardName);
+        homePage.rewardSearchInput.sendKeys(protractor.Key.ENTER);
+
+        browser.sleep(1000);
+
+        waitActions.waitForElementIsDisplayed(homePage.rewardResultRecordEle);
+        expect(homePage.rewardResultRecordEle.isDisplayed()).toBeTruthy();
+        expect(homePage.rewardResultRecordEle.getText()).toEqual(newRewardName);
+    });
+
 });
